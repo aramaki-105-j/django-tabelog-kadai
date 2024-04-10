@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+ 
+{% block title %}ログイン{% endblock %}
+{% block content %}
+<h2>ログイン</h2>
+<form method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">Login</button>
+  <p><a href="{% url 'tabelog:password_change' %}">パスワードの変更</a></p>
+</form>
+{% endblock %}
