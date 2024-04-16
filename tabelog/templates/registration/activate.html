@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block title %}認証に成功{% endblock %}
+{% block content %}
+{% if result %}
+    <p>認証に成功しました。</p>
+    <p><a href="{% url 'tabelog:login' %}">ログイン</a></p>
+{% else %}
+    <p>無効なリンクです。</p>
+{% endif %}
+{% endblock %}
