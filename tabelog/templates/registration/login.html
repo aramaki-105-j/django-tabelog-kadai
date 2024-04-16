@@ -6,7 +6,6 @@
 <form method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <button type="submit">Login</button>
-  <p><a href="{% url 'tabelog:password_change' %}">パスワードの変更</a></p>
+  <button type="submit">Login</button>  
 </form>
 {% endblock %}

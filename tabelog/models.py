@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import UserManager, PermissionsMixin
 from django.utils import timezone
+from django.core.mail import send_mail
 
 class CustomUserManager(UserManager):
     def _create_user(self, email, password, **extra_fields):
@@ -29,7 +30,7 @@ class CustomUserManager(UserManager):
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('メールアドレス', unique=True)
-    username = models.CharField(max_length=50)
+    #username = models.CharField(max_length=50)
     first_name = models.CharField('姓', max_length=30)
     last_name = models.CharField('名', max_length=30)
     telephone_number = models.CharField('電話番号', max_length=30, blank=True)
@@ -44,7 +45,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'email'
     EMAIL_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = []
 
     class Meta:
         db_table = 'users'
@@ -52,3 +53,21 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def clean(self):
         super().clean()
         self.email = self.__class__.objects.normalize_email(self.email)
+
+    def get_full_name(self):
+        """Return the first_name plus the last_name, with a space in
+        between."""
+        full_name = '%s %s' % (self.first_name, self.last_name)
+        return full_name.strip()
+
+    def get_short_name(self):
+        """Return the short name for the user."""
+        return self.first_name
+
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
+
+    @property
+    def username(self):
+        return self.email
