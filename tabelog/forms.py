@@ -1,7 +1,7 @@
 from django import forms
 from allauth.account.forms import SignupForm 
 from allauth.account.adapter import DefaultAccountAdapter
-from .models import CustomUser, Store, Review
+from .models import CustomUser, Store, Review, Booking
 
 
 
@@ -39,12 +39,16 @@ class StoreForm(forms.ModelForm):
         model = Store
         fields = '__all__'
 
-class BookingForm(forms.Form):
-    first_name = forms.CharField(max_length=30, label='姓')
-    last_name = forms.CharField(max_length=30, label='名')
-    tel = forms.CharField(max_length=30, label='電話番号')
-    remarks = forms.CharField(label='備考', widget=forms.Textarea())
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
+class BookingForm(forms.ModelForm):
+    #start = forms.SplitDateTimeField(label='予約日時')
+
+    class Meta:
+        model = Booking
+        fields = ['first_name', 'last_name', 'tel', 'remarks', 'start'] 
+        
 
 class ReviewForm(forms.ModelForm):
     

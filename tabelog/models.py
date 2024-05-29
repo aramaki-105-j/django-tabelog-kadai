@@ -77,6 +77,7 @@ class Store(models.Model):
         return self.name
    
 class Booking(models.Model):
+    id = models.AutoField('予約ID', primary_key=True)
     store = models.ForeignKey(Store, on_delete=models.PROTECT)
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     first_name = models.CharField('姓', max_length=100, null=True, blank=True)
@@ -98,12 +99,14 @@ class Review(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     update_at = models.DateTimeField(auto_now_add=True)
 
-    class Meta:
-        unique_together = ('store', 'user')
-
     def __str__(self):
         return str(self.store)
 
     def get_percent(self):
         percent = round(self.score / 5 * 100)
         return percent
+
+class Like(models.Model):
+    store = models.ForeignKey(Store, on_delete=models.PROTECT)
+    user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
+    

@@ -5,7 +5,10 @@ from django.utils.timezone import localtime, make_aware
 from django.views.generic import View
 from tabelog.models import Store, Booking
 from tabelog.forms import BookingForm
-from django.views.generic import View, TemplateView
+from django.views.generic import View, TemplateView, CreateView, DeleteView
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.urls import reverse_lazy
+
 
 
 
@@ -52,54 +55,58 @@ class CalendarView(View):
             'today': today,
         })
 
-class BookingView(View):
-    def get(self, request, *args, **kwargs):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        hour = self.kwargs.get('hour')
-        form = BookingForm(request.POST or None)
+class BookingView(UserPassesTestMixin, CreateView):
+    template_name = 'store/booking.html'
+    model = Booking
+    form_class = BookingForm
+        
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_paid
 
-        return render(request, 'store/booking.html', {
-            'year': year,
-            'month': month,
-            'day': day,
-            'hour': hour,
-            'form': form,
-        })
+    def handle_no_permission(self):
+        return redirect('home')
+    
 
     def post(self, request, *args, **kwargs):
-        year = self.kwargs.get('year')
-        month = self.kwargs.get('month')
-        day = self.kwargs.get('day')
-        hour = self.kwargs.get('hour')
-        start_time = make_aware(datetime(year=year, month=month, day=day, hour=hour))
-        booking_data = Booking.objects.filter(staff=staff_data, start=start_time)
-        form = BookingForm(request.POST or None)
-        if booking_data.exists():
-            form.add_error(None, '既に予約があります。\n別の日時で予約をお願いします。')
-        else:
-            if form.is_valid():
-                booking = Booking()
-                booking.staff = staff_data
-                booking.start = start_time
-                booking.end = end_time
-                booking.first_name = form.cleaned_data['first_name']
-                booking.last_name = form.cleaned_data['last_name']
-                booking.tel = form.cleaned_data['tel']
-                booking.remarks = form.cleaned_data['remarks']
-                booking.save()
-                return redirect('thanks') 
+        Booking.objects.create(
+            store_id = kwargs['store_id'],
+            user_id = request.user.id,
+            first_name = request.POST['first_name'],
+            last_name = request.POST['last_name'],
+            tel = request.POST['tel'],
+            remarks = request.POST['remarks'],
+            start = request.POST['start'],
+        )
+        
+        return redirect('thanks')
 
-        return render(request, 'store/booking.html', {
-            'staff_data': staff_data,
-            'year': year,
-            'month': month,
-            'day': day,
-            'hour': hour,
-            'form': form,
+class BookingCancelView(UserPassesTestMixin, DeleteView):
+    template_name = 'store/booking_cancel.html'
+    model = Booking
+    success_url = reverse_lazy('home')
+        
+    def test_func(self):
+        booking = Booking.objects.get(id=self.kwargs['pk'])
+        return self.request.user.is_authenticated and self.request.user.is_paid and booking.user_id == self.request.user.id
+
+    def handle_no_permission(self):
+        return redirect('home')
+
+class BookingListView(UserPassesTestMixin, View):
+    def test_func(self):
+        return self.request.user.is_authenticated and self.request.user.is_paid
+
+    def handle_no_permission(self):
+        return redirect('home')
+
+    def get(self, request, *args, **kwargs):
+        booking_data = Booking.objects.filter(user_id=request.user.id)
+
+        return render(request, 'store/booking_list.html', {
+            'booking_data': booking_data,
         })
 
+    
 
 class ThanksView(TemplateView):
     template_name = 'store/thanks.html'

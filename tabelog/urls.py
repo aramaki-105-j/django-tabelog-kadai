@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from tabelog.views import credit, views, booking
+from tabelog.views import credit, views, booking, like
 from django.contrib import admin
 from django.conf.urls.static import static 
 from django.conf import settings
@@ -17,14 +17,16 @@ urlpatterns = [
     
     path('store/<int:pk>/', views.StoreDetailView.as_view(), name='store_detail'),
     
-    path('calendar/<int:pk>/', booking.CalendarView.as_view(), name='calendar'), 
-    path('calendar/<int:pk>/<int:year>/<int:month>/<int:day>/', booking.CalendarView.as_view(), name='calendar'), 
-    path('booking/<int:pk>/<int:year>/<int:month>/<int:day>/<int:hour>/', booking.BookingView.as_view(), name='booking'),
+    path('booking/store/<int:store_id>/', booking.BookingView.as_view(), name='booking'),
+    path('booking/store/booking_cancel/<int:pk>/', booking.BookingCancelView.as_view(), name='booking_cancel'),
+    path('booking/store/booking_list/', booking.BookingListView.as_view(), name='booking_list'),
     path('thanks/', booking.ThanksView.as_view(), name='thanks'),
+
     path('review/store/<int:store_id>/', views.ReviewCreateView.as_view(), name='review_create'),
     path('review_list/', views.ReviewList.as_view(), name='review_list'),
     
-         
+    path('like_create/store/<int:store_id>/', like.LikeCreateView.as_view(), name='like_create'),
+    path('like_cancel/store/<int:store_id>/', like.LikeCancelView.as_view(), name='like_cancel'),     
 
     path('credit/register', credit.CreditRegisterView.as_view(), name='credit-register'),
     path('credit/update', credit.CreditUpdateView.as_view(), name='credit-update'),

@@ -79,11 +79,20 @@ class StoreView(View):
 class StoreDetailView(View):
     def get(self, request, *args, **kwargs):
         store_data = get_object_or_404(Store, id=self.kwargs['pk'])
-
+        reviews = Review.objects.filter(store_id=store_data.id)
+        average = reviews.aggregate(Avg("score"))['score__avg']or 0
+        average = round(average,2)
+        review_count = Review.objects.filter(store_id=store_data.id).count()
+	        
         return render(request, 'store/store.html', {
             'store_data': store_data,
+            'reviews': reviews,
+            'average': average,
+            'review_count': review_count,
         })
         
+
+
 class ReviewList(ListView):
     template_name = 'store/review_list.html'
     model = Review
@@ -102,10 +111,10 @@ class ReviewCreateView(UserPassesTestMixin, CreateView):
     
     def post(self, request, *args, **kwargs):
         Review.objects.create(
-            store = kwargs['store_id'],
-            user=request.user.id,
-            comment=request.POST['comment'],
-            score=request.POST['score'],
+            store_id = kwargs['store_id'],
+            user_id = request.user.id,
+            comment = request.POST['comment'],
+            score = request.POST['score'],
         )
-        return render(request, 'home.html')
+        return redirect('home')
    

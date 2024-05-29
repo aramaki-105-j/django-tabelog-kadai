@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>予約一覧</h1>
+
+{% for booking in booking_data %}
+  <div class="col-md-6 mb-4">
+    <div class="card">
+      <div class="card-body px-2 py-1">
+        <div class="p-4 text-left">
+          <h3>{{ booking.store }}店</h3>
+          <p>予約日時: {{ booking.start }}</p>
+          <p>備考：{{ booking.remarks }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <a href="{% url 'booking_cancel' booking.id %}">予約キャンセル</a>
+  {% empty %}
+  <p>まだ予約がありません</p>
+  {% endfor %}
+
+
+{% endblock %}

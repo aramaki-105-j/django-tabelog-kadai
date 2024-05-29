@@ -9,7 +9,11 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/store.css' %}" />
-    <title>{% block title %}{% endblock %}</title>
+    <!-- 予約カレンダー -->
+   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.css">
+   
+   <title>{% block title %}{% endblock %}</title>
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
@@ -30,6 +34,9 @@
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'subscription-cancel' %}">有料会員解約</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'booking_list' %}">予約一覧</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
