@@ -1,0 +1,38 @@
+{% extends "base.html" %} {% block content %}
+
+
+<div class="text-center my-5">
+  <div class="row">
+    <div class="col-md-6 mb-4 text-center stafflist">
+      <img src="{{ store_data.image.url }}" class="img-fluid" alt="" />
+    </div>
+
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body px-2 py-1">
+          <div class="p-4 text-left">
+            <h3>{{ store_data.name }}店</h3>
+            <p>平均評価: {{ average }}点/{{ review_count }}件</p>
+            <p>住所：{{ store_data.address }}</p>
+            <p>TEL：{{ store_data.tel }}</p>
+            <p>{{ store_data.description|linebreaksbr }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  {% for review in reviews %}
+    <div>{{ review.get_score_display }}</div>
+    <div>{{ review.comment }}</div>
+    <div>{{ review.user.last_name }}</div>
+    <a href="{% url 'review_update' review.id %}">編集</a>
+    <a href="{% url 'review_delete' review.id %}">レビュー削除</a>
+  {% endfor %}
+<a href="{% url 'review_create' store_data.id %}">レビュー</a>
+<a href="{% url 'booking' store_data.id %}">予約</a>
+<form action="{% url 'like_create' store_data.id %}" method="post">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-primary">お気に入り</button>
+</form>
+{% endblock %}

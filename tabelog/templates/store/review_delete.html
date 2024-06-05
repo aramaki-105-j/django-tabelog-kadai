@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="text-center my-5">
+  <h1>レビュー削除</h1>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">レビュー削除</button>
+  </form>
+
+
+</div>
+
+{% endblock %}

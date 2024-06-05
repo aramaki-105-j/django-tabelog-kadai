@@ -1,17 +1,14 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %} 
+
+{% block title %}プロフィール画面{% endblock %}
+{% block content %}
 
 <div class="card card-profile my-5 mx-auto">
   <div class="card-body">
     <h5 class="card-title text-center">プロフィール</h5>
     <table class="profile_table mb-4">
       <tbody>
-        <tr>
-          <th class="header">ニックネーム</th>
-          <td class="data">
-            {{ user_data.username }}
-          </td>
-        </tr>
-          <th class="header">名前</th>
+        <th class="header">名前</th>
           <td class="data">
             {{ user_data.first_name }} {{ user_data.last_name }}
           </td>
@@ -39,7 +36,7 @@
       </tbody>
     </table>
     <div class="button mx-auto">
-      <a class="btn btn-lg btn-warning btn-block" href="{% url 'tabelog:profile_edit' %}">編集</a>
+      <a class="btn btn-lg btn-warning btn-block" href="{% url 'profile_edit' %}">編集</a>
     </div>
   </div>
 </div>
