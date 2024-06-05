@@ -1,6 +1,52 @@
-{% extends "base.html" %}
+{% extends "base.html" %}{% load static %}
  
 {% block title %}トップ画面{% endblock %}
 {% block content %}
-<h1>Hello World!</h1>
+
+<form method="get" action="{% url 'home' %}">
+  <input type="text" name="q" value="{{ seach_text }}" placeholder="検索...">
+  <button type="submit">検索</button>
+</form>
+
+<div class="text-center my-5">
+  <div class="mb-5">
+    <h2>新店舗順一覧</h2>
+  </div>
+  <div class="row">
+    {% for store in object_list %}
+    <div class="col-lg-2 col-md-6">
+      <div class="card img-thumbnail storelist mb-3">
+        <img
+          class="card-img-top card-thum"
+          src="{{ store.image.url }}"
+          alt=""
+        />
+        <div class="card-body text-center px-2 py-3">
+          <h5 class="font-weight-bold">{{ store.name }}</h5>
+          <p>{{ store.address }}</p>
+        </div>
+        <a class="stretched-link" href="{% url 'store_detail' store.id %}"></a>
+      </div>
+    </div>
+    {% empty %}
+    <p>まだ店舗がありません</p>
+    {% endfor %}
+  </div>
+</div>
+
+<div>
+  <h4>カテゴリー</h4>
+  <!-- context.pyのオブジェクトを取得しています。（category_list）-->
+  {% for category in categorys %}
+      <a href="{% url 'home' %}?category={{ category.id }}">
+        <button style='float: left; 
+        margin-right: 5px; 
+        background: lime; 
+        border-radius: 5px;'> {{ category.name }} 
+        </button>
+      </a>
+  {% endfor %}
+</div>
+<br>
+
 {% endblock %}

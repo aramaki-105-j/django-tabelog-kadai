@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    
+    <button class="btn btn-lg btn-warning btn-block" type="submit">予約</button>
+</form>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
+   <script>$(function(){ $('#id_start_0').datepicker({dateFormat: "yy-mm-dd"}); $("#id_start_1").timeDropper({format: "H:00:00",setCurrentTime: false,});});</script>
+   
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.js"></script>
+{% endblock %}
