@@ -5,7 +5,6 @@ from allauth.account import views
 from django.views import View, generic
 from django.views.decorators.http import require_POST
 from django.conf import settings
-import stripe
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http.response import HttpResponse

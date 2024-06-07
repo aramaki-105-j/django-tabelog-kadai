@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from tabelog.views import credit, views, booking, like
+from tabelog.views import credit, views, booking, like, company
 from django.contrib import admin
 from django.conf.urls.static import static 
 from django.conf import settings
@@ -34,6 +34,8 @@ urlpatterns = [
     path('credit/register', credit.CreditRegisterView.as_view(), name='credit-register'),
     path('credit/update', credit.CreditUpdateView.as_view(), name='credit-update'),
     path('subscription/cancel', credit.SubscriptionCancelView.as_view(), name='subscription-cancel'),
+
+    path('company/admin/', company.CompanyAdminView.as_view(), name='company_admin'),
 
 ]
 

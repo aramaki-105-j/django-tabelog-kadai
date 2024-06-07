@@ -1,7 +1,7 @@
 from django import forms
 from allauth.account.forms import SignupForm 
 from allauth.account.adapter import DefaultAccountAdapter
-from .models import CustomUser, Store, Review, Booking
+from .models import CustomUser, Store, Review, Booking, Company
 
 
 

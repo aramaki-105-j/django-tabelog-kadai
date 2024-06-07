@@ -44,6 +44,18 @@
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
       </li>
+
+      {% elif user.is_staff %}
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile' %}">プロフィール</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account_change_password' %}">パスワード変更</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
+      </li>
+
       {% elif request.user.is_active %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'profile' %}">プロフィール</a>
@@ -55,9 +67,13 @@
         <a class="nav-link" href="{% url 'credit-register' %}">有料会員</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'company_admin' %}">店舗管理会員</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
       </li>
       {% endif %}
+
       {% else %}
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account_signup' %}">サインアップ</a>

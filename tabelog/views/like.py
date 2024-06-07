@@ -1,9 +1,8 @@
-from django.shortcuts import redirect, render, get_object_or_404
-from tabelog.models import Like, CustomUser
+from django.shortcuts import redirect, render
+from tabelog.models import Like
 from django.views.generic import CreateView, DeleteView, View
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.urls import reverse_lazy
-
 
 
 
@@ -28,9 +27,8 @@ class LikeCreateView(UserPassesTestMixin, CreateView):
 
 
 class LikeCancelView(UserPassesTestMixin, DeleteView):
-    template_name = 'store/like_list.html'
     model = Like
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('store_detail')
         
     def test_func(self):
         like = Like.objects.get(id=self.kwargs['pk'])
@@ -52,4 +50,3 @@ class LikeListView(UserPassesTestMixin, View):
         return render(request, 'store/like_list.html', {
             'like_data': like_data,
         })
-

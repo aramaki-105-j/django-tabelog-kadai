@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% load widget_tweaks %}
+
+{% block title %}Store管理者会員登録{% endblock %}
+{% block content %}
+
+  <div class="card card-auth my-5 mx-auto">
+    <div class="card-body">
+      <h5 class="card-title text-center">会社管理者登録</h5>
+        <div class="button mx-auto">
+          <form action="{% url 'company_admin' %}" method="POST" id="payment-form">
+            {% csrf_token %}
+          <button type="submit" class="btn btn-primary">会社管理者登録</button>
+          </form>
+        </div>
+        
+      </form>
+    </div>
+  </div>
+
+  
+
+{% endblock %}

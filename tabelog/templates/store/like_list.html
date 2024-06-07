@@ -10,7 +10,10 @@
       <div class="card-body px-2 py-1">
         <div class="p-4 text-left">
           <h3>{{ like.store }}店</h3>
-          <a href="{% url 'like_cancel' like.id %}">お気に入り削除</a>
+          <form action="{% url 'like_cancel' like.id %}" method="post">
+            {% csrf_token %}
+          <button type="submit" class="btn btn-primary">お気に入り削除</button>
+          </form>
         </div>
       </div>
     </div>
