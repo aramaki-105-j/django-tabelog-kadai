@@ -5,11 +5,11 @@
 
   <div class="card card-auth my-5 mx-auto">
     <div class="card-body">
-      <h5 class="card-title text-center">会社管理者登録</h5>
+      <h5 class="card-title text-center">管理者登録</h5>
         <div class="button mx-auto">
-          <form action="{% url 'company_admin' %}" method="POST" id="payment-form">
+          <form action="{% url 'store_admin' %}" method="POST" id="payment-form">
             {% csrf_token %}
-          <button type="submit" class="btn btn-primary">会社管理者登録</button>
+          <button type="submit" class="btn btn-primary">管理者登録</button>
           </form>
         </div>
         

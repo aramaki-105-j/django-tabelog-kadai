@@ -28,7 +28,7 @@ class LikeCreateView(UserPassesTestMixin, CreateView):
 
 class LikeCancelView(UserPassesTestMixin, DeleteView):
     model = Like
-    success_url = reverse_lazy('store_detail')
+    
         
     def test_func(self):
         like = Like.objects.get(id=self.kwargs['pk'])
@@ -36,6 +36,9 @@ class LikeCancelView(UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect('home')
+
+    def get_success_url(self):
+        return reverse_lazy('store_detail', kwargs={'pk': self.kwargs['pk']})
 
 class LikeListView(UserPassesTestMixin, View):
     def test_func(self):

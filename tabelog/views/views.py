@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView, ListView, CreateView, DeleteView
 from django.views.generic.edit import UpdateView
 from allauth.account import views
@@ -8,11 +8,10 @@ from django.conf import settings
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http.response import HttpResponse
-from tabelog.models import Store, Booking, Review, Category
+from tabelog.models import Store, Booking, Review, Category, Like
 from tabelog.forms import ProfileForm, StoreForm, ReviewForm
 from allauth.account import views
 from tabelog.models import CustomUser
-from django.shortcuts import render, redirect, get_object_or_404
 from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -104,12 +103,15 @@ class StoreDetailView(View):
         average = reviews.aggregate(Avg("score"))['score__avg']or 0
         average = round(average,2)
         review_count = Review.objects.filter(store_id=store_data.id).count()
+        is_like = Like.objects.filter(store_id=store_data.id, user_id=request.user.id).exists()
+
 	        
         return render(request, 'store/store.html', {
             'store_data': store_data,
             'reviews': reviews,
             'average': average,
             'review_count': review_count,
+            'is_like': is_like,
         })
         
 

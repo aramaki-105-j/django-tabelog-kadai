@@ -35,7 +35,8 @@ urlpatterns = [
     path('credit/update', credit.CreditUpdateView.as_view(), name='credit-update'),
     path('subscription/cancel', credit.SubscriptionCancelView.as_view(), name='subscription-cancel'),
 
-    path('company/admin/', company.CompanyAdminView.as_view(), name='company_admin'),
+    path('company/admin/', company.StoreAdminView.as_view(), name='store_admin'),
+    path('company/admin/create/', company.StoreCreateView.as_view(), name='store_create'),
 
 ]
 

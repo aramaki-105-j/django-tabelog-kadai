@@ -31,15 +31,17 @@
   {% endfor %}
 <a href="{% url 'review_create' store_data.id %}">レビュー</a>
 <a href="{% url 'booking' store_data.id %}">予約</a>
+  {% if is_like %}
+      <form action="{% url 'like_cancel' store_data.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-warning">お気に入り削除</button>
+      </form>
+  {% else %}
+      <form action="{% url 'like_create' store_data.id %}" method="post">
+      {% csrf_token %}
+      <button type="submit" class="btn btn-secondary">お気に入り</button>
+      </form>
+{% endif %}
 
-<form action="{% url 'like_create' store_data.id %}" method="post">
-  {% csrf_token %}
-  <button type="submit" class="btn btn-primary">お気に入り</button>
-</form>
-
-<form action="{% url 'like_cancel' store_data.id %}" method="post">
-  {% csrf_token %}
-<button type="submit" class="btn btn-primary">お気に入り削除</button>
-</form>
 
 {% endblock %}

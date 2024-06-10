@@ -54,3 +54,8 @@ class ReviewForm(forms.ModelForm):
     class Meta:
         model = Review
         fields = ['comment', 'score']
+
+class StoreCreateForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ['name', 'address', 'tel', 'description', 'category', 'image']
