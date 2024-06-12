@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}カテゴリー登録{% endblock %}
+{% block content %}
+  <h2>カテゴリー登録</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">登録する</button>
+</form>
+{% endblock %}

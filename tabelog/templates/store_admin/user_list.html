@@ -1,0 +1,34 @@
+{% extends "base.html" %}{% load static %}
+{% block title %}会員一覧{% endblock %}
+{% block content %}
+<form method="get" action="{% url 'user_list' %}">
+  <input type="text" name="q" value="{{ seach_text }}" placeholder="検索...">
+  <button type="submit">検索</button>
+</form>
+
+
+
+  
+<div class="text-center my-5">
+  <div class="mb-5">
+    <h2>会員一覧</h2>
+  </div>
+  <div class="row">
+    {% for user in object_list %}
+    <div class="col-lg-2 col-md-6">
+      <div class="card img-thumbnail storelist mb-3">
+        <div class="card-body text-center px-2 py-3">
+          <h5 class="font-weight-bold">{{ user.first_name }}{{ user.last_name }}</h5>
+          <p>{{ user.email }}</p>
+          <p>{{ user.telephone_number }}</p>
+          <p>{{ user.address }}</p>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>まだ会員がいません</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock %}

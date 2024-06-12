@@ -36,8 +36,13 @@ urlpatterns = [
     path('subscription/cancel', credit.SubscriptionCancelView.as_view(), name='subscription-cancel'),
 
     path('company/admin/', company.StoreAdminView.as_view(), name='store_admin'),
-    path('company/admin/create/', company.StoreCreateView.as_view(), name='store_create'),
-
+    path('company/store/create/', company.StoreCreateView.as_view(), name='store_create'),
+    path('company/store/edit/<int:pk>/', company.StoreEditView.as_view(), name='store_edit'),
+    path('company/store/delete/<int:pk>/', company.StoreDeleteView.as_view(), name='store_delete'),
+    path('user_list/', company.UserListView.as_view(), name='user_list'),
+    path('category_list/category/create/', company.CategoryCreateView.as_view(), name='category_create'),
+    path('category_list/', company.CategoryListView.as_view(), name='category_list'),
+    path('category_list/category/delete/<int:pk>/', company.CategoryDeleteView.as_view(), name='category_delete'),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

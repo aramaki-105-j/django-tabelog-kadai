@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
     <link rel="stylesheet" href="{% static 'css/style.css' %}" />
     <link rel="stylesheet" href="{% static 'css/store.css' %}" />
-    <!-- 予約カレンダー -->
-   <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
-   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.css">
    
    <title>{% block title %}{% endblock %}</title>
 <body>
@@ -56,6 +53,12 @@
         <a class="nav-link" href="{% url 'store_create' %}">店舗登録</a>
       </li>
       <li class="nav-item">
+        <a class="nav-link" href="{% url 'user_list' %}">会員一覧</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'category_list' %}">カテゴリー一覧</a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>
       </li>
 
@@ -70,7 +73,7 @@
         <a class="nav-link" href="{% url 'credit-register' %}">有料会員</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'company_admin' %}">店舗管理会員</a>
+        <a class="nav-link" href="{% url 'store_admin' %}">店舗管理会員</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'account_logout' %}">ログアウト</a>

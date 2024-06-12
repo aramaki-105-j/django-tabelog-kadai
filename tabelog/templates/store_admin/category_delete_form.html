@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}カテゴリー削除{% endblock %}
+{% block content %}
+  <h2>カテゴリー削除</h2>
+  <form method="post">
+    {% csrf_token %}
+    <h5>{{ category.name }}を削除しますか？</h5>
+    {{ form.as_p }}
+    <button type="submit">削除する</button>
+</form>
+{% endblock %}
