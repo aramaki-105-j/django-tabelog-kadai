@@ -115,7 +115,6 @@ class Review(models.Model):
         return percent
 
 class Like(models.Model):
-    id = models.AutoField('お気に入りID', primary_key=True)
     store = models.ForeignKey(Store, on_delete=models.PROTECT)
     user = models.ForeignKey(CustomUser, on_delete=models.PROTECT)
     
@@ -126,3 +125,12 @@ class Like(models.Model):
                 name="like_unique"
             ),
         ]
+
+class Company(models.Model):
+    id = models.AutoField('会社ID', primary_key=True)
+    name = models.CharField('会社名', max_length=100)
+    address = models.CharField('住所', max_length=100, null=True, blank=True)
+    tel = models.CharField('電話番号', max_length=100, null=True, blank=True)
+
+    def __str__(self):
+        return self.name
