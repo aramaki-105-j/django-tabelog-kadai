@@ -26,12 +26,11 @@ class LikeCreateView(UserPassesTestMixin, CreateView):
         return redirect('store_detail', kwargs['store_id'])
 
 
-class LikeCancelView(UserPassesTestMixin, DeleteView):
+class LikeCancelView(UserPassesTestMixin, CreateView):
     model = Like
-    
         
     def test_func(self):
-        like = Like.objects.get(id=self.kwargs['pk'])
+        like = Like.objects.get(store_id=self.kwargs['pk'], user_id=self.request.user.id)
         return self.request.user.is_authenticated and self.request.user.is_paid and like.user_id == self.request.user.id
 
     def handle_no_permission(self):

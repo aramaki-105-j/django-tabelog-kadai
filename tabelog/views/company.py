@@ -4,7 +4,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import View, CreateView, UpdateView, DeleteView, ListView
-from tabelog.models import CustomUser, Store, Category
+from tabelog.models import CustomUser, Store, Category, Company
 from tabelog.forms import StoreCreateForm
 from django.db.models import Q
 
@@ -99,7 +99,7 @@ class UserListView(UserPassesTestMixin, ListView):
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
             queryset = queryset.filter(
-                Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(address__icontains=q)
+                Q(first_name__icontains=q) | Q(last_name__icontains=q) | Q(address__icontains=q) | Q(email__icontains=q)
                 )
         return queryset
    
@@ -161,3 +161,8 @@ class CategoryDeleteView(UserPassesTestMixin, DeleteView):
 
     def handle_no_permission(self):
         return redirect('home')
+
+class CompanyInfoView(ListView):
+    template_name = 'store_admin/company_information.html'
+    model = Company
+    fields = ['name', 'address' 'tel']

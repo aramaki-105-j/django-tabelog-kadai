@@ -1,0 +1,26 @@
+{% extends "base.html" %} 
+{% block title %}会社情報{% endblock %}
+{% block content %}
+
+<div class="text-center my-5">
+  <div class="mb-5">
+    <h2>会社情報</h2>
+  </div>
+  <div class="row">
+    {% for company in object_list %}
+    <div class="col-lg-4 col-md-6 mx-auto">
+      <div class="card img-thumbnail storelist mb-3">
+        <div class="card-body text-center px-5 py-5">
+          <h5 class="font-weight-bold">{{ company.name }}</h5>
+          <br>
+          <h6 class="font-weight-bold">住所：{{ company.address }}</h6>
+          <h6 class="font-weight-bold">電話番号：{{ company.tel }}</h6>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+
+{% endblock %}
