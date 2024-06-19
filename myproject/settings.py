@@ -176,7 +176,14 @@ ACCOUNT_ADAPTER = 'tabelog.adapter.AccountAdapter'
 
 SITE_ID = 1
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+else:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = env('MAILGUN_SMTP_SERVER')
+    EMAIL_PORT = env('MAILGUN_SMTP_PORT')
+    EMAIL_HOST_USER = env('MAILGUN_SMTP_LOGIN')
+    EMAIL_HOST_PASSWORD = env('MAILGUN_SMTP_PASSWORD')
 
 STRIPE_PUBLISHABLE_KEY = env('STRIPE_PUBLISHABLE_KEY')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')

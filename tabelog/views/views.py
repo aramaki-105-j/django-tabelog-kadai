@@ -78,6 +78,7 @@ class StoreView(ListView):
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
+        queryset = queryset.annotate(average_score=Avg("review__score")).order_by('-average_score')
 
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
@@ -89,7 +90,7 @@ class StoreView(ListView):
             queryset = queryset.filter(category__id=category_id)
 
         if self.request.GET.get('order_by'):
-            order = self.request.GET.get('order_by', '-id')
+            order = self.request.GET.get('order_by', '-average_score')
             queryset = queryset.order_by(order)
 
         return queryset
@@ -99,6 +100,7 @@ class StoreView(ListView):
         ctx["seach_text"] = self.request.GET.get('q', '')
         ctx["categorys"] = Category.objects.all()
         ctx['current_order'] = self.request.GET.get('order', '-id')
+        ctx['average_scores'] = self.get_queryset().values('id', 'average_score')
         return ctx
         
 

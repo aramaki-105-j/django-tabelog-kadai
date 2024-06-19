@@ -15,6 +15,7 @@
     <option value="-id" {% if current_order == '-id' %}selected{% endif %}>新着順</option>
     <option value="name" {% if current_order == 'name' %}selected{% endif %}>名前昇順</option>
     <option value="-name" {% if current_order == '-name' %}selected{% endif %}>名前降順</option>
+    <option value="average_score" {% if current_order == 'average_score' %}selected{% endif %}>評価の平均点</option>
   </select>
 </form>
 
@@ -35,6 +36,7 @@
         <div class="card-body text-center px-2 py-3">
           <h5 class="font-weight-bold">{{ store.name }}</h5>
           <p>{{ store.address }}</p>
+          <p>平均スコア: {{ store.average_score|default:"レビューなし" }}</p>
         </div>
         <a class="stretched-link" href="{% url 'store_detail' store.id %}"></a>
       </div>
