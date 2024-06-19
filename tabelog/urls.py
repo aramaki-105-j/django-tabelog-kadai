@@ -45,5 +45,3 @@ urlpatterns = [
     path('category_list/category/delete/<int:pk>/', company.CategoryDeleteView.as_view(), name='category_delete'),
     path('company/information/', company.CompanyInfoView.as_view(), name='company_information'),
 ]
-
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
