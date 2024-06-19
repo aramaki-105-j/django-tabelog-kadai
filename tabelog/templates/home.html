@@ -7,10 +7,41 @@
   <input type="text" name="q" value="{{ seach_text }}" placeholder="検索...">
   <button type="submit">検索</button>
 </form>
+<br>
+
+<form method="get">
+  <label for="order_by">並べ替え:</label>
+  <select name="order_by" id="order_by" onchange="this.form.submit()">
+    <option value="-id" {% if current_order == '-id' %}selected{% endif %}>新着順</option>
+    <option value="name" {% if current_order == 'name' %}selected{% endif %}>名前昇順</option>
+    <option value="-name" {% if current_order == '-name' %}selected{% endif %}>名前降順</option>
+  </select>
+</form>
+
+<!-- 並び替えjavascript -->
+<script>
+  // ドロップダウンリストの値が変更されたときに実行
+  document.getElementById('order_by').addEventListener('change', function() {
+    // 選択された値をローカルストレージに保存
+    localStorage.setItem('selectedOrder', this.value);
+    // フォームを送信
+    document.getElementById('sort_form').submit();
+  });
+
+  // ページ読み込み時に実行
+  window.onload = function() {
+    // ローカルストレージから値を取得
+    var selectedOrder = localStorage.getItem('selectedOrder');
+    if (selectedOrder) {
+      // ドロップダウンリストで選択された状態に設定
+      document.getElementById('order_by').value = selectedOrder;
+    }
+  };
+</script>
 
 <div class="text-center my-5">
   <div class="mb-5">
-    <h2>新店舗順一覧</h2>
+    <h2>店舗一覧</h2>
   </div>
   <div class="row">
     {% for store in object_list %}
