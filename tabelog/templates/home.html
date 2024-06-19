@@ -18,26 +18,6 @@
   </select>
 </form>
 
-<!-- 並び替えjavascript -->
-<script>
-  // ドロップダウンリストの値が変更されたときに実行
-  document.getElementById('order_by').addEventListener('change', function() {
-    // 選択された値をローカルストレージに保存
-    localStorage.setItem('selectedOrder', this.value);
-    // フォームを送信
-    document.getElementById('sort_form').submit();
-  });
-
-  // ページ読み込み時に実行
-  window.onload = function() {
-    // ローカルストレージから値を取得
-    var selectedOrder = localStorage.getItem('selectedOrder');
-    if (selectedOrder) {
-      // ドロップダウンリストで選択された状態に設定
-      document.getElementById('order_by').value = selectedOrder;
-    }
-  };
-</script>
 
 <div class="text-center my-5">
   <div class="mb-5">
@@ -80,5 +60,26 @@
 </div>
 <br>
 <br>
+
+<!-- 並び替えjavascript -->
+<script>
+  // ドロップダウンリストの値が変更されたときに実行
+  document.getElementById('order_by').addEventListener('change', function() {
+    // 選択された値をローカルストレージに保存
+    localStorage.setItem('selectedOrder', this.value);
+    // フォームを送信
+    document.getElementById('sort_form').submit();
+  });
+
+  // ページ読み込み時に実行
+  window.onload = function() {
+    // ローカルストレージから値を取得
+    var selectedOrder = localStorage.getItem('selectedOrder');
+    if (selectedOrder) {
+      // ドロップダウンリストで選択された状態に設定
+      document.getElementById('order_by').value = selectedOrder;
+    }
+  };
+</script>
 
 {% endblock %}
