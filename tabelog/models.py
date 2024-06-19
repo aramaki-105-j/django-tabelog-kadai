@@ -32,7 +32,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    USER_TYPE_CHOICES = ((1, 'user'), (2, 'store'),)
     email = models.EmailField(verbose_name='メールアドレス', unique=True)
     first_name = models.CharField(verbose_name='姓', max_length=20)
     last_name = models.CharField(verbose_name='名', max_length=20)

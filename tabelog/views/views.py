@@ -74,7 +74,7 @@ class SubscriptionCancelView(TemplateView):
 class StoreView(ListView):
     model = Store
     template_name = "home.html"
-    order_by = ('-id')
+
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
@@ -87,12 +87,18 @@ class StoreView(ListView):
         if self.request.GET.get('category'):
             category_id = self.request.GET.get('category')
             queryset = queryset.filter(category__id=category_id)
+
+        if self.request.GET.get('order_by'):
+            order = self.request.GET.get('order_by', '-id')
+            queryset = queryset.order_by(order)
+
         return queryset
    
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
         ctx["seach_text"] = self.request.GET.get('q', '')
         ctx["categorys"] = Category.objects.all()
+        ctx['current_order'] = self.request.GET.get('order', '-id')
         return ctx
         
 
