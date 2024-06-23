@@ -3,6 +3,10 @@
 {% block title %}トップ画面{% endblock %}
 {% block content %}
 
+<h1>NAGOYAMESHI</h1>
+<br>
+<br>
+
 <form method="get" action="{% url 'home' %}">
   <input type="text" name="q" value="{{ seach_text }}" placeholder="検索...">
   <button type="submit">検索</button>
