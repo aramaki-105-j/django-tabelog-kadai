@@ -15,6 +15,7 @@
           <br>
           <h6 class="font-weight-bold">住所：{{ company.address }}</h6>
           <h6 class="font-weight-bold">電話番号：{{ company.tel }}</h6>
+          <a href="{% url 'company_information_update' company.id %}">編集</a>
         </div>
       </div>
     </div>

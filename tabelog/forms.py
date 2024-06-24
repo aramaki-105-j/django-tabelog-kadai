@@ -2,7 +2,10 @@ from django import forms
 from allauth.account.forms import SignupForm 
 from allauth.account.adapter import DefaultAccountAdapter
 from .models import CustomUser, Store, Review, Booking, Company
-
+from django.forms import ModelForm, DateInput, TimeInput
+from datetime import datetime, timedelta
+from django.utils import timezone
+from django.core.exceptions import ValidationError
 
 
 class ProfileForm(forms.Form):
@@ -39,14 +42,32 @@ class StoreForm(forms.ModelForm):
         model = Store
         fields = '__all__'
 
-class DateInput(forms.DateInput):
-    input_type = 'date'
-
 class BookingForm(forms.ModelForm):
+
+    start_date = forms.DateField(widget=DateInput(attrs={'type': 'date'}), label='開始日')
+    start_time = forms.TimeField(widget=TimeInput(attrs={'type': 'time'}), label='開始時間')
 
     class Meta:
         model = Booking
-        fields = ['first_name', 'last_name', 'tel', 'remarks', 'start'] 
+        fields = ['first_name', 'last_name', 'tel', 'remarks', 'start_date', 'start_time']
+
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        start_time = cleaned_data.get('start_time')
+
+        # 現在時刻を取得
+        now = timezone.localtime(timezone.now())
+
+        # フォームから取得した日付と時間を組み合わせて予約開始時刻を作成
+        naive_start = datetime.combine(start_date, start_time)
+        start = timezone.make_aware(naive_start, timezone.get_default_timezone())
+
+        # 予約開始時刻が現在時刻より少なくとも2時間後であることを確認
+        if start < now + timedelta(hours=2):
+            raise ValidationError('予約開始時刻は現在時刻より2時間後でなければなりません。')
+
+        return cleaned_data 
         
 
 class ReviewForm(forms.ModelForm):

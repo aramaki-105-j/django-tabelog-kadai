@@ -14,26 +14,32 @@ class BookingView(UserPassesTestMixin, CreateView):
     template_name = 'store/booking.html'
     model = Booking
     form_class = BookingForm
-        
+
     def test_func(self):
         return self.request.user.is_authenticated and self.request.user.is_paid
 
     def handle_no_permission(self):
         return redirect('home')
-    
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.store_id = self.kwargs['store_id']
+        self.object.user = self.request.user
+        self.object.start = datetime.combine(
+            form.cleaned_data['start_date'], 
+            form.cleaned_data['start_time']
+        )
+        self.object.save()
+        return redirect('thanks')
 
     def post(self, request, *args, **kwargs):
-        Booking.objects.create(
-            store_id = kwargs['store_id'],
-            user_id = request.user.id,
-            first_name = request.POST['first_name'],
-            last_name = request.POST['last_name'],
-            tel = request.POST['tel'],
-            remarks = request.POST['remarks'],
-            start = request.POST['start'],
-        )
-        
-        return redirect('thanks')
+        self.object = None 
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
+
 
 class BookingCancelView(UserPassesTestMixin, DeleteView):
     template_name = 'store/booking_cancel.html'

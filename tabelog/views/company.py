@@ -95,6 +95,8 @@ class UserListView(UserPassesTestMixin, ListView):
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
+        active_count = queryset.filter(is_active=True).count()
+        paid_count = queryset.filter(is_paid=True).count()
 
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
@@ -105,7 +107,11 @@ class UserListView(UserPassesTestMixin, ListView):
    
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["seach_text"] = self.request.GET.get('q', '')
+        ctx['seach_text'] = self.request.GET.get('q', '')
+        ctx['active_count'] = self.get_queryset().filter(is_active=True).count()
+        ctx['paid_count'] = self.get_queryset().filter(is_paid=True).count()
+        ctx['unpaid_active_count'] = ctx['active_count'] - ctx['paid_count']
+        ctx['total_paid_amount'] = ctx['paid_count'] * 300
         return ctx
 
 class CategoryCreateView(UserPassesTestMixin, CreateView):
@@ -165,4 +171,18 @@ class CategoryDeleteView(UserPassesTestMixin, DeleteView):
 class CompanyInfoView(ListView):
     template_name = 'store_admin/company_information.html'
     model = Company
-    fields = ['name', 'address' 'tel']
+    fields = ['name', 'address', 'tel']
+
+class CompanyInfoUpdateView(UserPassesTestMixin, UpdateView):
+    template_name = 'store_admin/company_information_update.html'
+    model = Company
+    fields = ['name', 'address', 'tel']
+    success_url = reverse_lazy('home')
+        
+    def test_func(self):
+        company = Company.objects.get(id=self.kwargs['pk'])
+        return self.request.user.is_authenticated and self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('home')
+    
