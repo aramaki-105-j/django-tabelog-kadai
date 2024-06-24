@@ -1,12 +1,16 @@
 {% extends "base.html" %}{% load static %}
 {% block title %}会員一覧{% endblock %}
 {% block content %}
+
+<p>総会員数: <strong>{{ active_count }}</strong></p>
+<p>有料会員数: <strong>{{ paid_count }}</strong></p>
+<p>無料会員数: <strong>{{ unpaid_active_count }}</strong></p>
+<p>売上: <strong>{{ total_paid_amount }}</strong>円</p>
+
 <form method="get" action="{% url 'user_list' %}">
   <input type="text" name="q" value="{{ seach_text }}" placeholder="検索...">
   <button type="submit">検索</button>
 </form>
-
-
 
   
 <div class="text-center my-5">

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}会社情報編集{% endblock %}
+{% block content %}
+  <h2>会社情報編集</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">登録する</button>
+</form>
+{% endblock %}

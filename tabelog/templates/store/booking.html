@@ -2,15 +2,55 @@
 
 {% block title %}予約{% endblock %}
 {% block content %}
-  <form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    
-    <button class="btn btn-lg btn-warning btn-block" type="submit">予約</button>
+<form method="post">
+  {% csrf_token %}
+  
+  <div>
+      <label for="first_name">名前:</label>
+      {{ form.first_name }}
+  </div>
+  
+  <div>
+      <label for="last_name">姓:</label>
+      {{ form.last_name }}
+  </div>
+  
+  <div>
+      <label for="tel">電話番号:</label>
+      {{ form.tel }}
+  </div>
+  
+  <div>
+      <label for="remarks">人数・備考:</label>
+      {{ form.remarks }}
+  </div>
+  
+  <div>
+      <label for="start_date">開始日:</label>
+      {{ form.start_date }}
+  </div>
+  
+  <div>
+      <label for="start_time">開始時間:</label>
+      {{ form.start_time }}
+  </div>
+  
+  <button type="submit">予約する</button>
 </form>
-<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
-   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
-   <script>$(function(){ $('#id_start_0').datepicker({dateFormat: "yy-mm-dd"}); $("#id_start_1").timeDropper({format: "H:00:00",setCurrentTime: false,});});</script>
-   
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/timedropper/1.0/timedropper.min.js"></script>
+
+{% if form.errors %}
+<div class="alert alert-danger" role="alert">
+    <strong>エラーが発生しました：</strong>
+    {% for field in form %}
+        {% for error in field.errors %}
+            <p>{{ error|escape }}</p>
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <p>{{ error|escape }}</p>
+    {% endfor %}
+</div>
+{% endif %}
+
+
 {% endblock %}
