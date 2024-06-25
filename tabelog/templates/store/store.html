@@ -19,8 +19,12 @@
             <p>住所：{{ store_data.address }}</p>
             <p>TEL：{{ store_data.tel }}</p>
             <p>{{ store_data.description|linebreaksbr }}</p>
+            {% if user.is_authenticated %}
+            {% if user.is_staff %}
             <a href="{% url 'store_edit' store_data.id %}">店舗編集</a>
             <a href="{% url 'store_delete' store_data.id %}">店舗削除</a>
+            {% endif %}
+            {% endif %}
           </div>
         </div>
       </div>
