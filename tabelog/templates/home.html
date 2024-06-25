@@ -40,7 +40,7 @@
         <div class="card-body text-center px-2 py-3">
           <h5 class="font-weight-bold">{{ store.name }}</h5>
           <p>{{ store.address }}</p>
-          <p>平均スコア: {{ store.average_score|default:0 }}</p>
+          <p>平均スコア: {{ store.average_score }}</p>
         </div>
         <a class="stretched-link" href="{% url 'store_detail' store.id %}"></a>
       </div>
