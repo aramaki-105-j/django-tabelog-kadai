@@ -75,9 +75,10 @@ class StoreView(ListView):
     model = Store
     template_name = "home.html"
 
+
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
-        queryset = queryset.annotate(average_score=Avg('review__score')).order_by('-average_score')
+        queryset = queryset.annotate(average_score=Avg("review__score")).order_by('-average_score')
 
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
@@ -93,12 +94,12 @@ class StoreView(ListView):
             queryset = queryset.order_by(order)
 
         return queryset
-
+   
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx["search_text"] = self.request.GET.get('q', '')
-        ctx["categories"] = Category.objects.all()
-        ctx['current_order'] = self.request.GET.get('order_by', '-average_score')
+        ctx["seach_text"] = self.request.GET.get('q', '')
+        ctx["categorys"] = Category.objects.all()
+        ctx['current_order'] = self.request.GET.get('order', '-average_score')
         ctx['average_scores'] = self.get_queryset().values('id', 'average_score')
         return ctx
         
