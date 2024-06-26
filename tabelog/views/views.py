@@ -12,11 +12,12 @@ from tabelog.models import Store, Booking, Review, Category, Like
 from tabelog.forms import ProfileForm, StoreForm, ReviewForm
 from allauth.account import views
 from tabelog.models import CustomUser
-from django.db.models import Avg
+from django.db.models import Avg, FloatField, Value
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
+from django.db.models.functions import Coalesce
 
 
 
@@ -78,7 +79,9 @@ class StoreView(ListView):
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
-        queryset = queryset.annotate(average_score=Avg("review__score")).order_by('-average_score')
+        queryset = queryset.annotate(
+            average_score=Coalesce(Avg("review__score", output_field=FloatField()), Value(0, output_field=FloatField()))
+        ).order_by('-average_score')
 
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
@@ -90,7 +93,7 @@ class StoreView(ListView):
             queryset = queryset.filter(category__id=category_id)
 
         if self.request.GET.get('order_by'):
-            order = self.request.GET.get('order_by', '-average_score')
+            order = self.request.GET.get('order_by')
             queryset = queryset.order_by(order)
 
         return queryset
@@ -99,7 +102,7 @@ class StoreView(ListView):
         ctx = super().get_context_data(**kwargs)
         ctx["seach_text"] = self.request.GET.get('q', '')
         ctx["categorys"] = Category.objects.all()
-        ctx['current_order'] = self.request.GET.get('order', '-average_score')
+        ctx['current_order'] = self.request.GET.get('order_by', '-average_score')
         ctx['average_scores'] = self.get_queryset().values('id', 'average_score')
         return ctx
         

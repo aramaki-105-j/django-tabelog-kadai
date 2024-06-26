@@ -13,7 +13,7 @@
 </form>
 <br>
 
-<form method="get">
+<form method="get" id="sort_form">
   <label for="order_by">並べ替え:</label>
   <select name="order_by" id="order_by" onchange="this.form.submit()">
     <option value="-id" {% if current_order == '-id' %}selected{% endif %}>新着順</option>
@@ -40,7 +40,7 @@
         <div class="card-body text-center px-2 py-3">
           <h5 class="font-weight-bold">{{ store.name }}</h5>
           <p>{{ store.address }}</p>
-          <p>平均スコア: {{ store.average_score|default:"レビューなし" }}</p>
+          <p>平均スコア: {{ store.average_score }}</p>
         </div>
         <a class="stretched-link" href="{% url 'store_detail' store.id %}"></a>
       </div>
