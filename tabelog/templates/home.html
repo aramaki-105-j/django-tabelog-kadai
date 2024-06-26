@@ -32,11 +32,15 @@
     {% for store in object_list %}
     <div class="col-lg-2 col-md-6">
       <div class="card img-thumbnail storelist mb-3">
-        <img
-          class="card-img-top card-thum"
-          src="{{ store.image.url }}"
-          alt=""
-        />
+        {% if store.image %}
+    <img
+      class="card-img-top card-thum"
+      src="{{ store.image.url }}"
+      alt="{{ store.name }}"
+    />
+    {% else %}
+     <p>画像無し</p>
+    {% endif %}
         <div class="card-body text-center px-2 py-3">
           <h5 class="font-weight-bold">{{ store.name }}</h5>
           <p>{{ store.address }}</p>
