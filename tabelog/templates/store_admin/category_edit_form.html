@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}カテゴリー編集{% endblock %}
+{% block content %}
+  <h2>カテゴリー編集</h2>
+  <form method="post">
+    {% csrf_token %}
+    <h5>{{ category.name }}を編集しますか？</h5>
+    {{ form.as_p }}
+    <button type="submit">編集する</button>
+</form>
+{% endblock %}
