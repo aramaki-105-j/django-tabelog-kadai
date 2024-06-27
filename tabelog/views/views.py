@@ -12,12 +12,12 @@ from tabelog.models import Store, Booking, Review, Category, Like
 from tabelog.forms import ProfileForm, StoreForm, ReviewForm
 from allauth.account import views
 from tabelog.models import CustomUser
-from django.db.models import Avg, FloatField, Value
+from django.db.models import Avg
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
-from django.db.models.functions import Coalesce, Round
+from django.db.models.functions import Round
 
 
 
@@ -79,9 +79,7 @@ class StoreView(ListView):
 
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
-        queryset = queryset.annotate(
-            average_score=Coalesce(Round(Avg("review__score"), 1), Value(0, output_field=FloatField()))
-        ).order_by('-average_score')
+        queryset = queryset.annotate(average_score=Round(Avg("review__score"), 1)).order_by('-average_score')
 
         if self.request.GET.get('q'):
             q = self.request.GET.get('q')
