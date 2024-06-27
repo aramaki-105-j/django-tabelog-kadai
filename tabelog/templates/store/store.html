@@ -7,12 +7,8 @@
 <div class="text-center my-5">
   <div class="row">
     <div class="col-md-6 mb-4 text-center stafflist">
-      {% if store.image %}
-    <img
-      class="card-img-top card-thum"
-      src="{{ store.image.url }}"
-      alt="{{ store.name }}"
-    />
+      {% if store_data.image %}
+      <img src="{{ store_data.image.url }}" class="img-fluid" alt="" />
     {% else %}
      <p>画像無し</p>
     {% endif %}

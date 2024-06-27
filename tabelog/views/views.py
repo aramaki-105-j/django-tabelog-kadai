@@ -17,7 +17,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib import messages
 from django.db.models import Q
-from django.db.models.functions import Coalesce
+from django.db.models.functions import Coalesce, Round
 
 
 
@@ -80,7 +80,7 @@ class StoreView(ListView):
     def get_queryset(self, **kwargs):
         queryset = super().get_queryset(**kwargs)
         queryset = queryset.annotate(
-            average_score=Coalesce(Avg("review__score", output_field=FloatField()), Value(0, output_field=FloatField()))
+            average_score=Coalesce(Round(Avg("review__score"), 1), Value(0, output_field=FloatField()))
         ).order_by('-average_score')
 
         if self.request.GET.get('q'):
