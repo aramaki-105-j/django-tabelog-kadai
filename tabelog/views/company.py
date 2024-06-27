@@ -168,6 +168,19 @@ class CategoryDeleteView(UserPassesTestMixin, DeleteView):
     def handle_no_permission(self):
         return redirect('home')
 
+class CategoryEditView(UserPassesTestMixin, UpdateView):
+    template_name = 'store_admin/category_edit_form.html'
+    model = Category
+    fields = ['name']
+    success_url = reverse_lazy('home')
+        
+    def test_func(self):
+        category = Category.objects.get(id=self.kwargs['pk'])
+        return self.request.user.is_authenticated and self.request.user.is_staff
+
+    def handle_no_permission(self):
+        return redirect('home')
+
 class CompanyInfoView(ListView):
     template_name = 'store_admin/company_information.html'
     model = Company

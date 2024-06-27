@@ -7,7 +7,15 @@
 <div class="text-center my-5">
   <div class="row">
     <div class="col-md-6 mb-4 text-center stafflist">
-      <img src="{{ store_data.image.url }}" class="img-fluid" alt="" />
+      {% if store.image %}
+    <img
+      class="card-img-top card-thum"
+      src="{{ store.image.url }}"
+      alt="{{ store.name }}"
+    />
+    {% else %}
+     <p>画像無し</p>
+    {% endif %}
     </div>
 
     <div class="col-md-6 mb-4">

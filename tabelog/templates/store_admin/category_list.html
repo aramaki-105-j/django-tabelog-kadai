@@ -17,6 +17,7 @@
       <div class="card img-thumbnail storelist mb-3">
         <div class="card-body text-center px-2 py-3">
           <h5 class="font-weight-bold">{{ category.name }}</h5>
+          <a href="{% url 'category_edit' category.id %}">編集</a>
           <a href="{% url 'category_delete' category.id %}">削除</a>
         </div>
       </div>
